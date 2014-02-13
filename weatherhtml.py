@@ -1,9 +1,18 @@
 # -*- coding: utf-8 -*-
 import requests
 import json
-import jinja2
 from jinja2 import Template
 
+f = open('plantilla.html','r')
+
+html = ''
+
+for linea in f:
+	hmtl += linea
+
+plantilla = Template('plantilla.html')
+
+plantilla.render(temp_min=tempeminreal,temp_max=tempemaxreal,
 def direccionviento(direccion):
 	"""Función que calcula la dirección del
 	viento dada por grados"""
