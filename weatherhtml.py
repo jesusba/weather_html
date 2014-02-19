@@ -2,19 +2,19 @@
 import requests
 import json
 from jinja2 import Template
+import webbrowser
 
 f = open('plantilla.html','r')
 
-html = ''
+html = ' '
 
 for linea in f:
-	hmtl += linea
+	html += linea
 
-plantilla = Template('plantilla.html')
+plantilla = Template(html)
 
-plantilla.render(temp_min=tempeminreal,temp_max=tempemaxreal,
 def direccionviento(direccion):
-	"""Función que calcula la dirección del
+	"""Funcion que calcula la direccion del
 	viento dada por grados"""
 	for grado in str(direccion):
 		if direccion >= 337.5 and direccion < 22.5:
@@ -34,21 +34,30 @@ def direccionviento(direccion):
 		elif direccion >= 292.5 and direccion < 337.5:
 			return "NO"
 		
-ciudades = ["Almería","Cádiz","Córdoba","Granada","Huelva","Jaén","Málaga","Sevilla","Dos Hermanas"]
+ciudades = ["Almeria","Cadiz","Cordoba","Granada","Huelva","Jaen","Malaga","Sevilla","Dos Hermanas"]
+tempe_min = []
+tempe_max = []
+viento_vel = []
+viento_direc = []
 
-respuesta = requests.get('http://api.openweathermap.org/data/2.5/weather',params={'q':'%s,spain' % ciudades[1]})
+for i in xrange(0,8):
+	respuesta = requests.get('http://api.openweathermap.org/data/2.5/weather',params={'q':'%s,spain' % ciudades[i]})
+	dicc = json.loads(respuesta.text)
 
-dicc = json.loads(respuesta.text)
+	tempemin = round(dicc["main"]["temp_min"] - 273,1)
+	tempemax = round(dicc["main"]["temp_max"] - 273,1)
+	viento = round(dicc["wind"]["speed"] * 1.61,1)
+	direccion = dicc["wind"]["deg"]
+	i + 1
 
-tempemin = dicc["main"]["temp_min"]
-tempemax = dicc["main"]["temp_max"]
-viento = dicc["wind"]["speed"]
-direccion = dicc["wind"]["deg"]
+	tempe_min.append(tempemin)
+	tempe_max.append(tempemax)
+	viento_vel.append(viento)
+	viento_direc.append(direccionviento(direccion))
 
-tempminreal = round(tempemin - 273,1)
-tempmaxreal = round(tempemax - 273,1)
-vientoreal = round(viento * 1.61,1)
+tiempo = plantilla.render(ciudad=ciudades,temp_max=tempemax,temp_min=tempemin,speed=viento,direccion=direccionviento(direccion))
+fichero = open('tiempo.html','w')
+fichero.write(tiempo)
+fichero.close()
+webbrowser.open("tiempo.html")
 
-print "La temperatura mínima actual de %s es de %s grados centígrados, la máxima es de %s, y el viento tiene una velocidad de %s km/h dirección %s" % (ciudades[1],tempminreal,tempmaxreal,vientoreal,direccionviento(direccion))
-
-# print respuesta.text
