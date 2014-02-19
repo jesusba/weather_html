@@ -1,15 +1,18 @@
 <?xml version="1.0"	encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
 	<head>
-		<title>Tiempo Andalucía</title>
+		<title>Tiempo Andalucia</title>
 	</head>
 	<body>
-		<h1>El Tiempo de Andalucía</h1>
-		<h2>{{ ciudades }}</h2>
+		<h1>El Tiempo de Andalucia</h1>
+		{% for ciudadp in ciudad %}
+		<h2>{{ ciudadp }}</h2>
 		<ul>
-			<li>Temperatura mínima prevista: {{ temp_min }} ºC</li>
-			<li>Temperatura máxima prevista: {{ temp_max }} ºC</li>	
-			<li>Viento: {{ speed }} </li>
+			<li>Temperatura minima prevista: {{ temp_min }} C</li>
+			<li>Temperatura maxima prevista: {{ temp_max }} C</li>	
+			<li>Viento: {{ speed }} direccion {{ direccion }}</li>
 		</ul>
+		{% endfor %}
 	</body>
 </html>
