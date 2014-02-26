@@ -6,13 +6,15 @@
 	</head>
 	<body>
 		<h1>El Tiempo de Andalucia</h1>
-		{% for ciudadp in ciudad %}
+		{% set contador = 0 %}
+		{% for ciudadp in ciudadp %}
 		<h2>{{ ciudadp }}</h2>
 		<ul>
-			<li>Temperatura minima prevista: {{ temp_min }} C</li>
-			<li>Temperatura maxima prevista: {{ temp_max }} C</li>	
-			<li>Viento: {{ speed }} direccion {{ direccion }}</li>
+			<li>Temperatura minima prevista: {{ temp_min[contador] }} C</li>
+			<li>Temperatura maxima prevista: {{ temp_max[contador] }} C</li>	
+			<li>Viento: {{ speed[contador] }} direccion {{ direccion[contador] }}</li>
 		</ul>
+		{% set contador = contador + 1 %}
 		{% endfor %}
 	</body>
 </html>
